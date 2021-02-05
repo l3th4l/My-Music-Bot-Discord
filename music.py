@@ -28,7 +28,7 @@ class Music(commands.Cog):
     def cog_check(self, ctx: commands.Context):
         """Prevent calling commands in DM's"""
         if not ctx.guild:
-            raise commands.NoPrivateMessage('This command can\'t be used in DM channels.')
+            raise commands.NoPrivateMessage('My man! Don\'t use this command here. ')
 
         return True
 
@@ -37,7 +37,7 @@ class Music(commands.Cog):
         ctx.voice_state = self.get_voice_state(ctx)
 
     async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
-        await ctx.send('An error occurred: {}'.format(str(error)))
+        await ctx.send('Well somethig is wrong.... {}'.format(str(error)))
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -65,7 +65,7 @@ class Music(commands.Cog):
         """
 
         if not channel and not ctx.author.voice:
-            raise voice.VoiceError('You are neither connected to a voice channel nor specified a channel to join.')
+            raise voice.VoiceError('Lol first join a channel or mention a channel .. jesus i can\'t handle this.')
 
         destination = channel or ctx.author.voice.channel
         if ctx.voice_state.voice:
@@ -141,37 +141,36 @@ class Music(commands.Cog):
 
     @commands.command(name='skip', aliases=['s'])
     async def _skip(self, ctx: commands.Context):
-        """Vote to skip a song. The requester can automatically skip.
-        3 skip votes are needed for the song to be skipped.
-        """
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('Not playing any music right now...')
+            
+            messge = await ctx.send('Check if you even playing something!!!! LOL')
+            await messge.add_reaction('🤣')
+            await messge.add_reaction('🤦‍♂️')
+            return messge
 
         voter = ctx.message.author
-        if voter == ctx.voice_state.current.requester:
+        if voter == ctx.voice_state.current.requester or voter.id not in ctx.voice_state.skip_votes:
             await ctx.message.add_reaction('⏭')
+            await ctx.message.add_reaction('🎶')
             ctx.voice_state.skip()
 
-        elif voter.id not in ctx.voice_state.skip_votes:
-            ctx.voice_state.skip_votes.add(voter.id)
-            total_votes = len(ctx.voice_state.skip_votes)
+        # elif voter.id not in ctx.voice_state.skip_votes:
+        #     ctx.voice_state.skip_votes.add(voter.id)
+        #     total_votes = len(ctx.voice_state.skip_votes)
 
-            if total_votes >= 3:
-                await ctx.message.add_reaction('⏭')
-                ctx.voice_state.skip()
-            else:
-                await ctx.send('Skip vote added, currently at **{}/3**'.format(total_votes))
+        #     if total_votes >= 3:
+        #         await ctx.message.add_reaction('⏭')
+        #         ctx.voice_state.skip()
+        #     else:
+        #         await ctx.send('Skip vote added, currently at **{}/3**'.format(total_votes))
 
-        else:
-            await ctx.send('You have already voted to skip this song.')
+        # else:
+        #     await ctx.send('You have already voted to skip this song.')
 
     @commands.command(name='queue')
     async def _queue(self, ctx: commands.Context, *, page: int = 1):
-        """Shows the player's queue.
-        You can optionally specify the page to show. Each page contains 10 elements.
-        """
-
+        
         if len(ctx.voice_state.songs) == 0:
             return await ctx.send('Empty queue.')
 
@@ -273,14 +272,16 @@ class Music(commands.Cog):
             try:
                 source = await ytdl.YTDLSource.create_source(ctx, search, loop=self.bot.loop)
             except ytdl.YTDLError as e:
-                await ctx.send('An error occurred while processing this request: {}'.format(str(e)))
+                await ctx.send('There is some error my LORDDDDD {}'.format(str(e)))
             else:
                 if not ctx.voice_state.voice:
                     await ctx.invoke(self._join)
 
                 song = voice.Song(source)
                 await ctx.voice_state.songs.put(song)
-                await ctx.send('Enqueued {}'.format(str(source)))
+                messg = await ctx.send('See this is what i got. Let me know if it is right {}'.format(str(source)))
+                await messg.add_reaction('👍')
+                await messg.add_reaction('👎')
 
     @commands.command(name='search')
     async def _search(self, ctx: commands.Context, *, search: str):
@@ -294,7 +295,7 @@ class Music(commands.Cog):
             try:
                 source = await ytdl.YTDLSource.search_source(self.bot, ctx, search, loop=self.bot.loop)
             except ytdl.YTDLError as e:
-                await ctx.send('An error occurred while processing this request: {}'.format(str(e)))
+                await ctx.send('Hmmmm. I guess something is wrong ....: {}'.format(str(e)))
             else:
                 if source == 'sel_invalid':
                     await ctx.send('Invalid selection')
@@ -308,14 +309,17 @@ class Music(commands.Cog):
 
                     song = voice.Song(source)
                     await ctx.voice_state.songs.put(song)
-                    await ctx.send('Enqueued {}'.format(str(source)))
+                    await ctx.send('See this is what i got :/  {}'.format(str(source)))
             
     @_join.before_invoke
     @_play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
         if not ctx.author.voice or not ctx.author.voice.channel:
-            raise commands.CommandError('You are not connected to any voice channel.')
-
+    
+            raise commands.CommandError('Jesus join a channel for god\'s sake. 🤦‍♂️')
+            
         if ctx.voice_client:
             if ctx.voice_client.channel != ctx.author.voice.channel:
-                raise commands.CommandError('Bot is already in a voice channel.')
+       
+                raise commands.CommandError('Hello!! Am I invisible. I am already here!😡')
+                
