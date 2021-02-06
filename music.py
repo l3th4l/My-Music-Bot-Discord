@@ -103,8 +103,14 @@ class Music(commands.Cog):
     @commands.command(name='now', aliases=['current', 'playing', 'np', 'nowplaying'])
     async def _now(self, ctx: commands.Context):
         """Displays the currently playing song."""
-        embed = ctx.voice_state.current.create_embed()
-        await ctx.send(embed=embed)
+        if ctx.voice_state.is_playing:
+            embed = ctx.voice_state.current.create_embed()
+            await ctx.send(embed=embed)
+        else:
+            messge = await ctx.send('Check if you even playing something!!!! LOL')
+            await messge.add_reaction('🤣')
+            await messge.add_reaction('🤦‍♂️')
+            return messge            
 
     @commands.command(name='pause', aliases=['pa'])
     @commands.has_permissions(manage_guild=True)
@@ -149,13 +155,21 @@ class Music(commands.Cog):
             await messge.add_reaction('🤣')
             await messge.add_reaction('🤦‍♂️')
             return messge
-
-        voter = ctx.message.author
-        if voter == ctx.voice_state.current.requester or voter.id not in ctx.voice_state.skip_votes:
+        
+        if len(ctx.voice_state.songs)==0:
+            ctx.voice_state.songs.clear()
+            ctx.voice_state.autoplay = False
+            messge = await ctx.send(len(ctx.voice_state.songs))
+            await ctx.message.add_reaction('⏭')
+            await ctx.message.add_reaction('🎶')
+            ctx.voice_state.voice.stop()
+        
+        else:
+            messge = await ctx.send(len(ctx.voice_state.songs))
             await ctx.message.add_reaction('⏭')
             await ctx.message.add_reaction('🎶')
             ctx.voice_state.skip()
-
+            
         # elif voter.id not in ctx.voice_state.skip_votes:
         #     ctx.voice_state.skip_votes.add(voter.id)
         #     total_votes = len(ctx.voice_state.skip_votes)
