@@ -271,10 +271,15 @@ class Music(commands.Cog):
 
         async with ctx.typing():
             try:
+                print("inside try")
                 source = await ytdl.YTDLSource.create_source(ctx, search, loop=self.bot.loop)
+                
             except ytdl.YTDLError as e:
+                print("inside try")
                 await ctx.send('There is some error my LORDDDDD {}'.format(str(e)))
+                
             else:
+                print("inside try")
                 if not ctx.voice_state.voice:
                     await ctx.invoke(self._join)
 
