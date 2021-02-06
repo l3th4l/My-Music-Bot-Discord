@@ -159,13 +159,11 @@ class Music(commands.Cog):
         if len(ctx.voice_state.songs)==0:
             ctx.voice_state.songs.clear()
             ctx.voice_state.autoplay = False
-            messge = await ctx.send(len(ctx.voice_state.songs))
             await ctx.message.add_reaction('⏭')
             await ctx.message.add_reaction('🎶')
             ctx.voice_state.voice.stop()
         
         else:
-            messge = await ctx.send(len(ctx.voice_state.songs))
             await ctx.message.add_reaction('⏭')
             await ctx.message.add_reaction('🎶')
             ctx.voice_state.skip()
