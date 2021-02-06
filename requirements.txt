@@ -1,5 +1,5 @@
 discord-ext-typed-commands==1.0.3
-discord.py==1.6.0
+discord.py[voice]
 httpcore==0.12.3
 httpx==0.16.1
 youtube-dl==2021.2.4.1
