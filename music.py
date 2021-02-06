@@ -161,7 +161,7 @@ class Music(commands.Cog):
             ctx.voice_state.autoplay = False
             await ctx.message.add_reaction('⏭')
             await ctx.message.add_reaction('🎶')
-            ctx.voice_state.voice.stop()
+            ctx.voice_state.skip()
         
         else:
             await ctx.message.add_reaction('⏭')
