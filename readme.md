@@ -3,7 +3,7 @@
 ## To run locally
 
 Just uncomment  the below lines in main.py
-
+and use your own config.jsonss
 ```
     # with open('config.json') as fh:
     # bot.config = json.load(fh)
