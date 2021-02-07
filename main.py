@@ -16,9 +16,16 @@ async def on_ready():
     bot.add_cog(music.Music(bot))
 
 def main():
+<<<<<<< HEAD
     #with open('config.json') as fh:
     #   bot.config = json.load(fh)
    
+=======
+    # with open('config.json') as fh:
+    #     bot.config = json.load(fh)
+
+    # bot.run(bot.config['token'])
+>>>>>>> 205d6d352eaf74080ec7757ee9f761539b6c92e8
     bot.run(os.environ['token'])
     
 
