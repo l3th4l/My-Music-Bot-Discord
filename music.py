@@ -287,11 +287,11 @@ class Music(commands.Cog):
                 source = await ytdl.YTDLSource.create_source(ctx, search, loop=self.bot.loop)
                 
             except ytdl.YTDLError as e:
-                print("inside except")
+                print("inside try")
                 await ctx.send('There is some error my LORDDDDD {}'.format(str(e)))
                 
             else:
-                print("inside else")
+                print("inside try")
                 if not ctx.voice_state.voice:
                     await ctx.invoke(self._join)
 
@@ -340,4 +340,3 @@ class Music(commands.Cog):
             if ctx.voice_client.channel != ctx.author.voice.channel:
        
                 raise commands.CommandError('Hello!! Am I invisible. I am already here!😡')
-                
