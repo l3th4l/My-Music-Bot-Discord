@@ -1,11 +1,11 @@
 discord-ext-typed-commands==1.0.3
-discord.py==1.6.0
+discord.py[voice]
+discord
 httpcore==0.12.3
 httpx==0.16.1
 youtube-dl==2021.2.4.1
 bs4==0.0.1
 async-generator==1.10
 async-timeout==3.0.1
-discord==1.0.1
 asyncio==3.4.3
 PyNaCl
