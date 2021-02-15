@@ -67,7 +67,7 @@ class VoiceState:
         self.exists = True
 
         self._loop = False
-        self._autoplay = True
+        self._autoplay = False
         self._volume = 0.5
         self.skip_votes = set()
 
