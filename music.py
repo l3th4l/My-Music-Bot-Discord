@@ -59,7 +59,6 @@ class Music(commands.Cog):
         ctx.voice_state.voice = await destination.connect()
 
     @commands.command(name='summon')
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _summon(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
         """Summons the bot to a voice channel.
         If no channel was specified, it joins your channel.
@@ -76,7 +75,6 @@ class Music(commands.Cog):
         ctx.voice_state.voice = await destination.connect()
 
     @commands.command(name='leave', aliases=['disconnect'])
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _leave(self, ctx: commands.Context):
         """Clears the queue and leaves the voice channel."""
 
@@ -113,7 +111,6 @@ class Music(commands.Cog):
             return messge            
 
     @commands.command(name='pause', aliases=['pa'])
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _pause(self, ctx: commands.Context):
         """Pauses the currently playing song."""
         print(">>>Pause Command:")
@@ -122,7 +119,6 @@ class Music(commands.Cog):
             await ctx.message.add_reaction('⏯')
 
     @commands.command(name='resume', aliases=['re', 'res'])
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _resume(self, ctx: commands.Context):
         """Resumes a currently paused song."""
 
@@ -131,7 +127,6 @@ class Music(commands.Cog):
             await ctx.message.add_reaction('⏯')
 
     @commands.command(name='stop')
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _stop(self, ctx: commands.Context):
         """Stops playing song and clears the queue."""
 
@@ -147,7 +142,6 @@ class Music(commands.Cog):
 
 
     @commands.command(name='skip', aliases=['s'])
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _skip(self, ctx: commands.Context):
 
         if not ctx.voice_state.is_playing:
@@ -183,7 +177,6 @@ class Music(commands.Cog):
         #     await ctx.send('You have already voted to skip this song.')
 
     @commands.command(name='queue')
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _queue(self, ctx: commands.Context, *, page: int = 1):
         
         if len(ctx.voice_state.songs) == 0:
@@ -227,7 +220,6 @@ class Music(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='shuffle')
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _shuffle(self, ctx: commands.Context):
         """Shuffles the queue."""
 
@@ -279,7 +271,6 @@ class Music(commands.Cog):
         await ctx.send('Autoplay after end of queue is now ' + ('on' if ctx.voice_state.autoplay else 'off') )
 
     @commands.command(name='play', aliases=['p'])
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _play(self, ctx: commands.Context, *, search: str):
         """Plays a song.
         If there are songs in the queue, this will be queued until the
@@ -309,7 +300,6 @@ class Music(commands.Cog):
                 await messg.add_reaction('👎')
 
     @commands.command(name='search')
-    @commands.has_permissions(manage_guild=True,administrator=True)
     async def _search(self, ctx: commands.Context, *, search: str):
         """Searches youtube.
         It returns an imbed of the first 10 results collected from youtube.
