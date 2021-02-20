@@ -5,6 +5,7 @@ from discord.ext import commands
 
 import ytdl
 import voice
+import playlist
 
 class Music(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -176,11 +177,11 @@ class Music(commands.Cog):
         # else:
         #     await ctx.send('You have already voted to skip this song.')
 
-    @commands.command(name='queue')
+    @commands.command(name='queue', aliases=['q'])
     async def _queue(self, ctx: commands.Context, *, page: int = 1):
         
         if len(ctx.voice_state.songs) == 0:
-            return await ctx.send('Empty queue.')
+            return await ctx.send('The queue\'s empty :(')
 
         items_per_page = 10
         pages = math.ceil(len(ctx.voice_state.songs) / items_per_page)
@@ -278,6 +279,7 @@ class Music(commands.Cog):
         This command automatically searches from various sites if no URL is provided.
         A list of these sites can be found here: https://rg3.github.io/youtube-dl/supportedsites.html
         """
+        print(search)
 
         async with ctx.typing():
             try:
@@ -298,6 +300,18 @@ class Music(commands.Cog):
                 messg = await ctx.send('See this is what i got. Let me know if it is right {}'.format(str(source)))
                 await messg.add_reaction('👍')
                 await messg.add_reaction('👎')
+
+    @commands.command(name = 'playlist', aliases = ['pl'])
+    async def _play_pl(self, ctx:commands.Context):
+
+        self.playlist = Playlist()
+        try:
+            if 'sleep' in ctx.message.content.lower('./Playlists/piano.csv'):
+                self.playlist.load()
+        except:
+            await ctx.send('Sorry, there was some problem loading that playlist')
+
+
 
     @commands.command(name='search')
     async def _search(self, ctx: commands.Context, *, search: str):
