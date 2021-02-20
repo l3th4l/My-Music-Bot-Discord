@@ -7,10 +7,12 @@ class Playlist():
 
     def __init__(mode, p_time = 60.0):
         self.mode = mode
-        self.start_intensity = 0
+        self.start_intensity = 5
         self.end_intensity = 0
         self.p_time = p_time
         self.falloff = Falloff.linear
+
+    #add a mode param function
 
     def load(pl_path, mode = 'sleep', curve = 'linear'):
         p_list = pd.read_csv(pl_path)

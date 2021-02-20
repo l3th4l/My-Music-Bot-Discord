@@ -303,11 +303,34 @@ class Music(commands.Cog):
 
     @commands.command(name = 'playlist', aliases = ['pl'])
     async def _play_pl(self, ctx:commands.Context):
-
-        self.playlist = Playlist()
+      
         try:
-            if 'sleep' in ctx.message.content.lower('./Playlists/piano.csv'):
-                self.playlist.load()
+            if 'sleep' in ctx.message.content.lower():
+                self.playlist = Playlist(mode = 'sleep')
+                self.playlist.load('./Playlists/piano.csv')
+
+            for song in self.playlist.queue:
+                ##Copy pasta'd from above 
+                async with ctx.typing():
+                    try:
+                        print("inside try")
+                        source = await ytdl.YTDLSource.create_source(ctx, search = song, loop=self.bot.loop)
+                        
+                    except ytdl.YTDLError as e:
+                        print("inside try")
+                        await ctx.send('There is some error my LORDDDDD {}'.format(str(e)))
+                        
+                    else:
+                        print("inside try")
+                        if not ctx.voice_state.voice:
+                            await ctx.invoke(self._join)
+
+                        song = voice.Song(source)
+                        await ctx.voice_state.songs.put(song)
+                        #messg = await ctx.send('See this is what i got. Let me know if it is right {}'.format(str(source)))
+                        #await messg.add_reaction('👍')
+                        #await messg.add_reaction('👎')
+
         except:
             await ctx.send('Sorry, there was some problem loading that playlist')
 
