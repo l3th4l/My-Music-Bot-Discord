@@ -6,21 +6,21 @@ from discord.ext import commands
 
 import music
 
-bot = commands.Bot(command_prefix='|', description="|play songs")
+bot = commands.Bot(command_prefix='|', description="Daj eno zgodlej")
 
 @bot.event
 async def on_ready():
-    activity = discord.Game(name='playing with music')
+    activity = discord.Game(name='|play sampanjac')
     await bot.change_presence(activity=activity)
     print(f'Logged in as {bot.user.name}')
     bot.add_cog(music.Music(bot))
 
 def main():
-    with open('config.json') as fh:
-        bot.config = json.load(fh)
+    #with open('config.json') as fh:
+        #bot.config = json.load(fh)
 
-    bot.run(bot.config['token'])
-    #bot.run(os.environ['token'])
+    #bot.run(bot.config['token'])
+    bot.run(os.environ['token'])
     
 
 
